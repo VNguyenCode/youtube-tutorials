@@ -1,32 +1,32 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
-import {atom, RecoilRoot, selector, useRecoilState, useRecoilValue} from 'recoil';
+import {
+  atom,
+  RecoilRoot,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
 
 const usernameState = atom({
-  key: 'username',
-  default: 'Red'
-})
+  key: 'username2',
+  default: 'Red',
+});
 
 const countState = selector({
   key: 'count',
-  get: ({get}) => {
+  get: ({ get }) => {
     const username = get(usernameState);
     return username.length;
-  }
-})
+  },
+});
 
 function App() {
-  return (
-    <RecoilRoot>
-      <Nav/>
-      <Body/>
-    </RecoilRoot>
-  );
+  return <Nav />;
 }
 
 function Nav() {
   const username = useRecoilValue(usernameState);
-
   return (
     <div className="nav">
       <p>{username}</p>
@@ -35,9 +35,10 @@ function Nav() {
 }
 
 function Body() {
+  const username = useRecoilValue(usernameState);
   return (
     <div className="body">
-      <Profile/>
+      <Profile />
       <Count />
     </div>
   );
@@ -49,17 +50,20 @@ function Profile() {
     <div>
       <h2>Profile:</h2>
       <p>{username}</p>
-      <input type='text' value={username} onChange={event => setUsername(event.target.value)}/>
+      <input
+        type="text"
+        value={username}
+        onChange={(event) => setUsername(event.target.value)}
+      />
     </div>
   );
 }
 
 function Count() {
   const count = useRecoilValue(countState);
-
   return (
     <div>
-     <p>Count: {count}</p>
+      <p>Count: {count}</p>
     </div>
   );
 }
